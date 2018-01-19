@@ -1,0 +1,8 @@
+#ifndef __THINGER_CONFIG_H
+#define __THINGER_CONFIG_H
+
+const char ThingerUsername[] = "***";
+const char ThingerDeviceId[] = "***";
+const char ThingerDeviceCredentials[] = "***";
+
+#endif

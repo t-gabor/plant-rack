@@ -1,0 +1,7 @@
+#ifndef __WIFI_CONFIG_H
+#define __WIFI_CONFIG_H
+
+const char WiFiSSID[] = "***";
+const char WiFiPSK[] = "***";
+
+#endif
