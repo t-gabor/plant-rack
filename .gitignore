@@ -1,3 +1,4 @@
 .vscode
+.build
 wifi-config.h
 thinger-config.h
