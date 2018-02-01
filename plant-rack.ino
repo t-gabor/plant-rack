@@ -4,6 +4,8 @@
 #include <ESP8266WiFi.h>
 #include <ThingerWifi.h>
 #include <DHT.h>
+#include <OneWire.h>
+#include <DallasTemperature.h>
 #include <EEPROM.h>
 
 #include <Time.h>
@@ -19,8 +21,12 @@
 #define FAN_PIN D1
 
 #define SENSOR_PIN D7
+#define DS18B20_PIN D6
 
 DHT sensor(SENSOR_PIN, DHT22);
+
+OneWire oneWire(DS18B20_PIN);
+DallasTemperature dsSensor(&oneWire);
 
 ThingerWifi thing(ThingerUsername, ThingerDeviceId, ThingerDeviceCredentials);
 
@@ -49,6 +55,7 @@ bool fanOn = false;
 void setup()
 {
   Serial.begin(115200);
+  dsSensor.begin();
   loadSettings();
 
   setupTime();
@@ -112,10 +119,12 @@ void setupThing()
     String t = String(hour(time(nullptr))) + ":" + String(minute(time(nullptr)));
     humidity = sensor.readHumidity();
     temperature = sensor.readTemperature();
+    dsSensor.requestTemperatures();
 
     out["Device Time"] = t;
     out["Humidity"] = humidity;
     out["Temperature"] = temperature;
+    out["Temperature 2"] = round(dsSensor.getTempCByIndex(0) * 10) / 10.0;
     out["fanOn"] = fanOn;
     out["lightOn"] = lightOn;
   };
